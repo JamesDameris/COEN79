@@ -98,6 +98,7 @@ namespace coen79_lab4
             exp = pow(x,i);
             eval += poly[i] * exp;
         }
+        return eval;
     }
 
     bool polynomial::is_zero( ) const {
@@ -199,14 +200,17 @@ namespace coen79_lab4
                 tmp = p.coefficient(i) * -1;
                 sign = "- ";
             }
+            else {
+                tmp = p.coefficient(i);
+            }
             if (i !=1) {
-                out<<sign<<p.coefficient(i)<<"x^"<<i<<" ";
+                out<<sign<<tmp<<"x^"<<i<<" ";
             }
             else if (i = 1) {
-                out<<sign<<p.coefficient(i)<<"x"<<" ";
+                out<<sign<<tmp<<"x"<<" ";
             }
             else {
-                out<<sign<<p.coefficient(i);
+                out<<sign<<tmp;
             }
         }
         return out;

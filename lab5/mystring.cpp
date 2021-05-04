@@ -13,13 +13,34 @@ using namespace std;
 namespace coen79_lab5
 {
     string::string(const char str[ ] = ""){
-        assert(str == '\0');
-        
+        current_length = strlen(str);
+        allocated = current_length + 1;
+        characters = new char(allocated);
+        strncpy(characters, str, current_length);
     }
-    void string::operator +=(const string& addend) {
+    string::string(char c){
+        current_length = 1;
+        allocated = current_length + 1;
+        characters = new char(allocated);
+        characters[0] = c;
+    }
+    string::string(const string& source){
+        current_length = source.current_length;
+        allocated = current_length + 1;
+        characters = new char(allocated);
+        strncpy(characters, source.characters, current_length);
+    }
+    string::~string(){
+        delete [] characters;
+    }
 
+    void string::operator +=(const string& addend) {
+        current_length = current_length + addend.current_length;
+        reserve(current_length);
+        characters = strncat(characters, addend.characters, current_length);
     }
     void string::operator +=(const char addend[ ]) {
+        current_length = current_length + strlen(addend);
 
     }
     void string::operator +=(char addend) {

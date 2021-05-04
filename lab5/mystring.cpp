@@ -61,7 +61,7 @@ namespace coen79_lab5
             n = allocated;
         }
         char *tmp = new char[n];
-        copy(characters,characters+current_length, tmp);
+        copy(characters, characters+current_length, tmp);
         delete [] characters;
         characters = tmp;
         allocated = n+1;
@@ -121,7 +121,7 @@ namespace coen79_lab5
 
     unsigned int string::count(char c) const {
         size_t i = 0, count = 0;
-        while (!'\0') {
+        while (i < current_length) {
             if (characters[i] == c) {
                 count++;
             }

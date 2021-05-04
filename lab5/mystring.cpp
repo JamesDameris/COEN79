@@ -36,7 +36,7 @@ namespace coen79_lab5
 
     void string::operator +=(const string& addend) {
         current_length = current_length + addend.current_length;
-        reserve(current_length);
+        reserve(current_length + addend.current_length + 1);
         characters = strncat(characters, addend.characters, current_length);
     }
     void string::operator +=(const char addend[ ]) {

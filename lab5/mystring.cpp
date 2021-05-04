@@ -27,6 +27,17 @@ namespace coen79_lab5
     }
 
     void string::reserve(size_t n) {
+        if (n == allocated) {
+            return;
+        }
+        if (allocated > n) {
+            n = allocated;
+        }
+        char *tmp = new char[n];
+        copy(characters,characters+current_length, tmp);
+        delete [] characters;
+        characters = tmp;
+        allocated = n+1;
 
     }
 

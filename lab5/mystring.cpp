@@ -129,7 +129,6 @@ namespace coen79_lab5
                 return current_length;
         }
         return -1;
-        }
     }
     unsigned int string::count(char c) const {
         size_t i = 0, count = 0;

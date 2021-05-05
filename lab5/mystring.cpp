@@ -170,6 +170,12 @@ namespace coen79_lab5
     }
 
     string operator +(const string& s1, const string& s2) {
+        string s;
+        char c = '\0';
+        size_t total = s1.length() + s2.length();
+        s.reserve(total);
+        size_t end = s1.search(c);
+        string str = s.replace(s2, end);
 
     }
 

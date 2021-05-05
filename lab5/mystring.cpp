@@ -178,7 +178,11 @@ namespace coen79_lab5
     }
 
     string operator +(const string& s1, const char addend[ ]) {
-
+        string s;
+        size_t total = s1.length() + strlen(addend) + 1;
+        s.reserve(total);
+        s += s1;
+        s += addend;
     }
 
     std::istream& operator >> (std::istream& ins, string& target) {

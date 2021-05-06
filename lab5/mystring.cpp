@@ -124,9 +124,16 @@ namespace coen79_lab5
     }
 
     int string::search(const string& substring) const {
-        while(characters != '\0'){
-            if(strcmp(characters, substring.characters)==0)
-                return current_length;
+        size_t i = 0, j = 0;
+        for (i = 0; i < current_length - substring.current_length; i++) {
+            for  (j = 0; j < substring.current_length; j++) {
+                if (characters[i+j] =! substring.characters[j]) {
+                    break;
+                }
+            }
+            if (j == current_length) {
+                    return i;
+            }
         }
         return -1;
     }

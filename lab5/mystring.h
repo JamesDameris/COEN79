@@ -120,7 +120,7 @@ namespace coen79_lab5
     {
     public:
         // CONSTRUCTOR, COPY CONSTRUCTOR, and DESTRUCTOR
-        string(const char str[ ] = "");
+        string(const char str[] = "");
         string(char c);                     // NEW FUNCTION 1
         string(const string& source);
         ~string( );

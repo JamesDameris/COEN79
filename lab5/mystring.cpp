@@ -4,15 +4,13 @@
 #include <cassert>   // Provides assert
 #include <iostream>  // Provides istream class
 #include <cstring>
-#include <cmath>     // Provides pow(base, exponent)
-#include <climits>   // Provides UINT_MAX
 #include "mystring.h"
 
 using namespace std;
 
 namespace coen79_lab5
 {
-    string::string(const char str[ ] = ""){
+    string::string(const char str[]){
         current_length = strlen(str);
         allocated = current_length + 1;
         characters = new char(allocated);
@@ -127,7 +125,7 @@ namespace coen79_lab5
         size_t i = 0, j = 0;
         for (i = 0; i < current_length - substring.current_length; i++) {
             for  (j = 0; j < substring.current_length; j++) {
-                if (characters[i+j] =! substring.characters[j]) {
+                if (characters[i+j] != substring.characters[j]) {
                     break;
                 }
             }
@@ -149,31 +147,50 @@ namespace coen79_lab5
     }
 
     std::ostream& operator <<(std::ostream& outs, const string& source) {
-        
+        outs << source.characters << endl;
+        return outs;
     }
 
     bool operator ==(const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) == 0) {
+            return true;
+        }
+        return false;
     }
 
     bool operator !=(const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) != 0) {
+            return true;
+        }
+        return false;
     }
 
     bool operator > (const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) > 0) {
+            return true;
+        }
+        return false;
     }
 
     bool operator < (const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) < 0) {
+            return true;
+        }
+        return false;
     }
 
     bool operator >=(const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) >= 0) {
+            return true;
+        }
+        return false;
     }
 
     bool operator <=(const string& s1, const string& s2) {
-
+        if (strcmp(s1.characters, s2.characters) <= 0) {
+            return true;
+        }
+        return false;
     }
 
     string operator +(const string& s1, const string& s2) {
@@ -182,6 +199,7 @@ namespace coen79_lab5
         s.reserve(total);
         s += s1;
         s += s2;
+        return s;
     }
 
     string operator +(const string& s1, const char addend[ ]) {
@@ -190,10 +208,11 @@ namespace coen79_lab5
         s.reserve(total);
         s += s1;
         s += addend;
+        return s;
     }
 
-    std::istream& operator >> (std::istream& ins, string& target) {
-
+    std::istream& operator >> (std::istream& ins, string& target) { // this function needs to be written still
+        return ins;
     }
 
 

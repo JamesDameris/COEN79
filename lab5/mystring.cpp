@@ -1,4 +1,4 @@
-// AUTHOR: Zach Azer
+// AUTHOR: Zach Azer, James Dameris
 // FILE: mystring.cpp
 // CLASS IMPLEMENTED: mystring (see mystring.h for documentation)
 #include <cassert>   // Provides assert
@@ -35,8 +35,7 @@ namespace coen79_lab5
     void string::operator +=(const string& addend) {
         current_length = current_length + addend.current_length;
         reserve(current_length + 1);
-        copy(addend.characters, addend.characters + addend.current_length, characters + current_length);
-        characters[current_length] = '\0';
+        strncat(characters, addend.characters, addend.current_length);
     }
     void string::operator +=(const char addend[ ]) {
         current_length = current_length + strlen(addend);

@@ -69,10 +69,8 @@ namespace coen79_lab5
         if (this == &source) {
             return *this;
         }
-        
-        delete[] characters;
         current_length = source.current_length;
-        reserve(source.current_length + 1);
+        reserve(current_length + 1);
         copy(source.characters,source.characters + source.current_length, characters);
         return *this;
     }
@@ -108,7 +106,7 @@ namespace coen79_lab5
 
     void string::replace(const string& source, unsigned int position) {
         assert(position + source.current_length <= current_length);
-        copy(source.characters, source.characters + source.current_length, characters[position]);
+        copy(source.characters, source.characters + source.current_length, characters + position);
     }
 
     char string::operator [](size_t position) const {
@@ -151,7 +149,11 @@ namespace coen79_lab5
     }
 
     std::ostream& operator <<(std::ostream& outs, const string& source) {
-        outs << source.characters << endl;
+        size_t i = 0;
+        while (i < source.current_length) {
+            outs << source.characters[i];
+            i++;
+        }
         return outs;
     }
 
@@ -216,6 +218,14 @@ namespace coen79_lab5
     }
 
     std::istream& operator >> (std::istream& ins, string& target) { // this function needs to be written still
+        while (ins && isspace(ins.peek())) {
+            ins.ignore();
+        }
+        char tmp;
+        while (!ins.eof() && !isspace(ins.peek())) {
+            ins >> tmp;
+            target += tmp;
+        }
         return ins;
     }
 

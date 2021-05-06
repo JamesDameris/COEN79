@@ -59,7 +59,7 @@ namespace coen79_lab5
             n = allocated;
         }
         char *tmp = new char[n];
-        copy(characters, characters+current_length, tmp);
+        copy(characters, characters + current_length, tmp);
         delete [] characters;
         characters = tmp;
         allocated = n+1;
@@ -226,6 +226,7 @@ namespace coen79_lab5
             ins >> tmp;
             target += tmp;
         }
+        cout << target << endl;
         return ins;
     }
 

@@ -13,19 +13,19 @@ namespace coen79_lab5
     string::string(const char str[]){
         current_length = strlen(str);
         allocated = current_length + 1;
-        characters = new char(allocated);
+        characters = new char[allocated];
         strncpy(characters, str, current_length);
     }
     string::string(char c){
         current_length = 1;
         allocated = current_length + 1;
-        characters = new char(allocated);
+        characters = new char[allocated];
         characters[0] = c;
     }
     string::string(const string& source){
         current_length = source.current_length;
         allocated = current_length + 1;
-        characters = new char(allocated);
+        characters = new char[allocated];
         strncpy(characters, source.characters, current_length);
     }
     string::~string(){
@@ -34,20 +34,18 @@ namespace coen79_lab5
 
     void string::operator +=(const string& addend) {
         current_length = current_length + addend.current_length;
-        reserve(current_length + addend.current_length + 1);
-        characters = strncat(characters, addend.characters, current_length);
         reserve(current_length + 1);
         copy(addend.characters, addend.characters + addend.current_length, characters + current_length);
         characters[current_length] = '\0';
     }
     void string::operator +=(const char addend[ ]) {
         current_length = current_length + strlen(addend);
-        reserve(current_length);
-        characters = strncat(characters, addend, current_length);
-        characters[current_length + 1] = '\0';
+        reserve(current_length + 1);
+        strncat(characters, addend, current_length);
+        characters[current_length] = '\0';
     }
     void string::operator +=(char addend) {
-        reserve(current_length + 1);
+        reserve(current_length + 2);
         characters[current_length] = addend;
         characters[current_length+1] = '\0';
         current_length++;
@@ -68,6 +66,12 @@ namespace coen79_lab5
     }
 
     string& string::operator =(const string& source) {
+        if (this == &source) {
+            return *this;
+        }
+        
+        delete[] characters;
+        current_length = source.current_length;
         reserve(source.current_length + 1);
         copy(source.characters,source.characters + source.current_length, characters);
         return *this;

@@ -76,13 +76,20 @@ namespace coen79_lab5
 
     void string::insert(const string& source, unsigned int position) {
         assert(position <= current_length);
-        reserve(current_length + source.current_length + 1);
-        size_t i;
-        copy(characters + position, characters + source.current_length + position + 1, characters + source.current_length + position);
-        for (i = position; i <= source.current_length; i++) {
-            characters[i] = source.characters[i];
-        }
-        current_length = current_length + source.current_length;
+        reserve(current_length + source.current_length + 10);
+        // size_t i;
+        // for (i = 0; i <= source.current_length; i++) {
+        //     characters[position + source.length() + i + 1] = characters[position + i];
+        //     characters[position + i] = source.characters[i];
+        // }
+        // current_length = current_length + source.current_length;
+        string s1,s2;
+        size_t end = position - 1;
+        strncpy(s1.characters, characters, position);
+        strncpy(s2.characters, characters + position, current_length - position);
+        *this += s1;
+        *this += source;
+        *this += s2;
     }
 
     void string::dlt(unsigned int position, unsigned int num) {
@@ -146,7 +153,7 @@ namespace coen79_lab5
         }
         return count;
     }
-
+    
     std::ostream& operator <<(std::ostream& outs, const string& source) {
         size_t i = 0;
         while (i < source.current_length) {

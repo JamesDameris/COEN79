@@ -15,6 +15,7 @@
 #include "node.h"
 #include <cassert>    // Provides assert
 #include <cstdlib>    // Provides NULL and size_t
+#include <iostream>
 
 using namespace std;
 
@@ -148,7 +149,21 @@ namespace coen79_lab6
     }
 
 	void list_piece(node* start_ptr, node* end_ptr, node*& head_ptr, node*& tail_ptr) { 
-		
+		node* cursor = end_ptr;
+		for (cursor; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
+			assert(cursor != start_ptr);
+		}
+		if (head_ptr == NULL) {
+			return;
+		}
+		head_ptr = start_ptr;
+		tail_ptr = end_ptr;
+		if (end_ptr == NULL) {
+			tail_ptr == cursor;
+		}
+		for (cursor = start_ptr; cursor != NULL && cursor != tail_ptr; cursor = cursor->link()) {
+			list_insert(cursor,cursor->link()->data());
+		}
 	}
 	
     size_t list_occurrences(node* head_ptr, const node::value_type& target) { 
@@ -168,15 +183,42 @@ namespace coen79_lab6
 	}
 	
     void list_print (const node* head_ptr) { 
-		
+		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {
+			cout << head_ptr->data();
+		}
 	}
 	
     void list_remove_dups(node* head_ptr) { 
-		
+		node* cursor = head_ptr;
+		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {
+			for (cursor; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
+				if (head_ptr->data() == cursor->link()->data()) {
+					delete cursor->link();
+					cursor->set_link(cursor->link()->link());
+				}
+			}
+		}
 	}
 	
     node* list_detect_loop (node* head_ptr) { 
-		
+		node* fastRunner = head_ptr;
+		node* slowRunner = head_ptr;
+		for (slowRunner, fastRunner;
+			fastRunner != NULL && fastRunner->link() != NULL;
+			fastRunner = fastRunner->link()->link(), slowRunner = slowRunner->link()) {
+			if (fastRunner == slowRunner) {
+				slowRunner = head_ptr;
+				break;
+			}
+		}
+		for (slowRunner, fastRunner;
+			fastRunner != NULL && fastRunner->link() != NULL;
+			fastRunner = fastRunner->link(), slowRunner = slowRunner->link()) {
+			if (fastRunner == slowRunner) {
+				return fastRunner;
+			}
+		}
+		return NULL;
 	}
 	
 

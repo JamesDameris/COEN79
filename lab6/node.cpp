@@ -152,11 +152,30 @@ namespace coen79_lab6
 	}
 	
     size_t list_occurrences(node* head_ptr, const node::value_type& target) { 
-		
+    	const node *cursor;
+		size_t count = 0;
+    	for (cursor = head_ptr; cursor != NULL; cursor = cursor->link( )){
+    	    if (target == cursor->data( )){
+        		count++;
+			}
+		}
+    	return count;
 	}
 	
     void list_insert_at(node*& head_ptr, const node::value_type& entry, size_t position) { 
-		
+		node *cursor;
+		size_t i;
+		node *insert_ptr;
+
+    	assert (0 < position && position <= list_length(head_ptr)+1);
+    	cursor = head_ptr;
+    	for (i = 1; (i <= position) && (cursor != NULL); i++){
+    	    cursor = cursor->link();
+			if(i==position-1){
+				list_insert(cursor, entry);
+			}
+		}
+    	    
 	}
 	
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 

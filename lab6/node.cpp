@@ -180,21 +180,29 @@ namespace coen79_lab6
     void list_insert_at(node*& head_ptr, const node::value_type& entry, size_t position) { 
 		node *cursor;
 		size_t i;
-		node *insert_ptr;
 
     	assert (0 < position && position <= list_length(head_ptr)+1);
     	cursor = head_ptr;
     	for (i = 1; (i <= position) && (cursor != NULL); i++){
     	    cursor = cursor->link();
 			if(i==position-1){
-				list_insert(cursor, entry);
+				list_insert(cursor,entry);
 			}
 		}
     	    
 	}
 	
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 
-		
+		assert (0 < position && position <= list_length(head_ptr));
+		node *cursor;
+		size_t i;
+		for (i = 1; (i <= position) && (cursor != NULL); i++){
+    	    cursor = cursor->link();
+			if(i==position){
+				list_remove(cursor);
+			}
+		}
+		cursor->data();
 	}
 	
     node* list_copy_segment(node* head_ptr, size_t start, size_t finish) { 

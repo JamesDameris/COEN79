@@ -56,16 +56,31 @@ namespace coen79_lab6
         *this = source;
     }
     void sequence::start(){
-
+        cursor = head_ptr;
     }
     void sequence::end(){
-
+        cursor = tail_ptr;
+        for (cursor = head_ptr; cursor != NULL; cursor = cursor->link( ))
+            if(tail_ptr = cursor->link()){
+                precursor = cursor;
+            }
     }
     void sequence::advance(){
-
+        assert(is_item() == true);
+        if(cursor = tail_ptr){
+            list_remove(precursor);
+        }
+        else{
+            cursor = cursor->link();
+        }
     }
     void sequence::insert(const value_type& entry){
-
+        if(head_ptr == NULL){
+            list_head_insert(head_ptr, entry);
+        }
+        else{
+            list_insert(cursor, entry);
+        }
     }
     void sequence::attach(const value_type& entry){
 
@@ -77,13 +92,14 @@ namespace coen79_lab6
 
     }
     sequence::size_type sequence::size() const{
-
+        return many_nodes;
     }
     bool sequence::is_item() const{
-
+        
     }
     sequence::value_type sequence::current( ) const{
-
+        assert(is_item() == true);
+        return cursor->data();
     }
     
 }

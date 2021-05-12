@@ -189,7 +189,6 @@ namespace coen79_lab6
 				list_insert(cursor,entry);
 			}
 		}
-    	    
 	}
 	
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 

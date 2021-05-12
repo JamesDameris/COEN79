@@ -55,6 +55,35 @@ namespace coen79_lab6
         init();
         *this = source;
     }
+    void sequence::start(){
 
+    }
+    void sequence::end(){
+
+    }
+    void sequence::advance(){
+
+    }
+    void sequence::insert(const value_type& entry){
+
+    }
+    void sequence::attach(const value_type& entry){
+
+    }
+    void sequence::operator=(const sequence& source){
+
+    }
+    void sequence::remove_current(){
+
+    }
+    sequence::size_type sequence::size() const{
+
+    }
+    bool sequence::is_item() const{
+
+    }
+    sequence::value_type sequence::current( ) const{
+
+    }
     
 }

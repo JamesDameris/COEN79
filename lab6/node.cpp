@@ -149,18 +149,12 @@ namespace coen79_lab6
     }
 
 	void list_piece(node* start_ptr, node* end_ptr, node*& head_ptr, node*& tail_ptr) { 
-		node* cursor = end_ptr;
-		for (cursor; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
-			assert(cursor != start_ptr);
-		}
-		if (head_ptr == NULL) {
+		node* cursor;
+		if (start_ptr == NULL) {
 			return;
 		}
 		head_ptr = start_ptr;
 		tail_ptr = end_ptr;
-		if (end_ptr == NULL) {
-			tail_ptr == cursor;
-		}
 		for (cursor = start_ptr; cursor != NULL && cursor != tail_ptr; cursor = cursor->link()) {
 			list_insert(cursor,cursor->link()->data());
 		}
@@ -195,14 +189,16 @@ namespace coen79_lab6
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 
 		assert (0 < position && position <= list_length(head_ptr));
 		node *cursor;
+		node::value_type temp;
 		size_t i;
 		for (i = 1; (i <= position) && (cursor != NULL); i++){
     	    cursor = cursor->link();
-			if(i==position){
+			if (i == position) {
+				temp = cursor->data();
 				list_remove(cursor);
 			}
 		}
-		cursor->data();
+		return temp;
 	}
 	
     node* list_copy_segment(node* head_ptr, size_t start, size_t finish) { 
@@ -215,8 +211,9 @@ namespace coen79_lab6
 	}
 	
     void list_print (const node* head_ptr) { 
-		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {
-			cout << head_ptr->data();
+		const node* cursor;
+		for (cursor = head_ptr; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
+			cout << cursor->data();
 		}
 	}
 	

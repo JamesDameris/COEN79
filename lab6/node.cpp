@@ -155,7 +155,7 @@ namespace coen79_lab6
 		}
 		head_ptr = start_ptr;
 		tail_ptr = end_ptr;
-		for (cursor = start_ptr; cursor != NULL && cursor != tail_ptr; cursor = cursor->link()) {
+		for (cursor = start_ptr; cursor->link() != NULL && cursor != tail_ptr; cursor = cursor->link()) {
 			list_insert(cursor,cursor->link()->data());
 		}
 	}

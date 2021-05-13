@@ -205,7 +205,12 @@ namespace coen79_lab6
 	}
 	
     node* list_copy_segment(node* head_ptr, size_t start, size_t finish) { 
-		
+	 	node* begin = list_locate(head_ptr,start);
+		node* end = list_locate(head_ptr,finish);
+		node* newBeg;
+		node* newEnd;
+		list_piece(begin, end, newBeg, newEnd);
+		return newBeg;
 	}
 	
     void list_print (const node* head_ptr) { 
@@ -233,18 +238,17 @@ namespace coen79_lab6
 			fastRunner != NULL && fastRunner->link() != NULL;
 			fastRunner = fastRunner->link()->link(), slowRunner = slowRunner->link()) {
 			if (fastRunner == slowRunner) {
-				slowRunner = head_ptr;
 				break;
 			}
+		}
+		if (fastRunner != slowRunner) {
+			return NULL;
 		}
 		for (slowRunner, fastRunner;
 			fastRunner != NULL && fastRunner->link() != NULL;
 			fastRunner = fastRunner->link(), slowRunner = slowRunner->link()) {
-			if (fastRunner == slowRunner) {
-				return fastRunner;
-			}
 		}
-		return NULL;
+		return fastRunner;
 	}
 	
 

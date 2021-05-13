@@ -89,7 +89,7 @@ int main(int argc, char const *argv[]) {
         cout << "Inserting 4.75 at back:\n\t";
         list_print(my_list);
         // Insert in middle
-        list_insert_at(my_list, 2, 5);
+        list_insert_at(my_list, 2.25, 5);
         cout << "Inserting 2.25 in middle:\n\t";
         list_print(my_list);
         // Insert into empty list

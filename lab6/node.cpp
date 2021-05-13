@@ -149,14 +149,22 @@ namespace coen79_lab6
     }
 
 	void list_piece(node* start_ptr, node* end_ptr, node*& head_ptr, node*& tail_ptr) { 
+		list_clear(head_ptr);
 		node* cursor;
-		if (start_ptr == NULL) {
+		if (start_ptr == NULL && end_ptr == NULL) {
+			head_ptr = NULL;
+			tail_ptr = NULL;
 			return;
 		}
-		head_ptr = start_ptr;
-		tail_ptr = end_ptr;
-		for (cursor = start_ptr; cursor->link() != NULL && cursor != tail_ptr; cursor = cursor->link()) {
-			list_insert(cursor,cursor->link()->data());
+		list_head_insert(head_ptr,start_ptr->data());
+		tail_ptr = head_ptr;
+		if (start_ptr == end_ptr) {
+			return;
+		}
+		cursor = start_ptr->link();
+		for (cursor; cursor != end_ptr && cursor != NULL; cursor = cursor->link()) {
+			list_insert(tail_ptr,cursor->data());
+			tail_ptr = tail_ptr->link();
 		}
 	}
 	
@@ -172,80 +180,91 @@ namespace coen79_lab6
 	}
 	
     void list_insert_at(node*& head_ptr, const node::value_type& entry, size_t position) { 
-		node *cursor;
-		size_t i;
-
-    	assert (0 < position && position <= list_length(head_ptr)+1);
-    	cursor = head_ptr;
-    	for (i = 1; (i <= position) && (cursor != NULL); i++){
-    	    cursor = cursor->link();
-			if(i==position-1){
-				list_insert(cursor,entry);
-			}
+		node* hold;
+    	assert (position > 0 && position <= list_length(head_ptr)+1);
+		if (position == 1) {
+			list_head_insert(head_ptr, entry);
+			return;
 		}
+		hold = list_locate(head_ptr, position - 1);
+		list_insert(hold,entry);
 	}
 	
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 
+		node* hold;
+		node::value_type dTemp;
 		assert (0 < position && position <= list_length(head_ptr));
-		node *cursor;
-		node::value_type temp;
-		size_t i;
-		for (i = 1; (i <= position) && (cursor != NULL); i++){
-    	    cursor = cursor->link();
-			if (i == position) {
-				temp = cursor->data();
-				list_remove(cursor);
-			}
+		if (position == 1) {
+			hold = list_locate(head_ptr, position);
+			dTemp = hold->data();
+			list_head_remove(head_ptr);
+			return dTemp;
 		}
-		return temp;
+		hold = list_locate(head_ptr, position - 1);
+		dTemp = hold->data();
+		list_remove(hold);
+		return dTemp;
 	}
 	
     node* list_copy_segment(node* head_ptr, size_t start, size_t finish) { 
 	 	node* begin = list_locate(head_ptr,start);
-		node* end = list_locate(head_ptr,finish);
-		node* newBeg;
-		node* newEnd;
+		node* end = list_locate(head_ptr,finish+1);
+		node* newBeg = new node();
+		node* newEnd = new node();
 		list_piece(begin, end, newBeg, newEnd);
 		return newBeg;
 	}
 	
     void list_print (const node* head_ptr) { 
-		const node* cursor;
-		for (cursor = head_ptr; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
+		const node* cursor = head_ptr;
+		for (cursor; cursor != NULL; cursor = cursor->link()) {
 			cout << cursor->data();
+			if (cursor->link() != NULL) {
+				cout << ", ";
+			}
 		}
+		cout << endl;
 	}
 	
     void list_remove_dups(node* head_ptr) { 
 		node* cursor = head_ptr;
+		node* temp;
 		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {
-			for (cursor; cursor != NULL && cursor->link() != NULL; cursor = cursor->link()) {
-				if (head_ptr->data() == cursor->link()->data()) {
-					delete cursor->link();
-					cursor->set_link(cursor->link()->link());
+			for (cursor = head_ptr->link(); cursor != NULL; cursor = cursor->link()) {
+				if (head_ptr->data() == cursor->data()) {
+					temp = cursor->link();
+					delete cursor;
+					head_ptr->set_link(temp);
 				}
 			}
 		}
 	}
 	
     node* list_detect_loop (node* head_ptr) { 
-		node* fastRunner = head_ptr;
-		node* slowRunner = head_ptr;
-		for (slowRunner, fastRunner;
-			fastRunner != NULL && fastRunner->link() != NULL;
-			fastRunner = fastRunner->link()->link(), slowRunner = slowRunner->link()) {
-			if (fastRunner == slowRunner) {
+		// f is fast runner, s is slow runner
+		node* f = head_ptr;
+		node* s = head_ptr;
+		while (f != NULL && f->link() != NULL) {
+			s = s->link();
+			f = f->link()->link();
+			if (f == s) {
 				break;
 			}
 		}
-		if (fastRunner != slowRunner) {
+		// for (s, f; f != NULL && f->link() != NULL; f = f->link()->link(), s = s->link()) {
+		// 	if (f == s) {
+		// 		break;
+		// 	}
+		// }
+		if (f != s) {
 			return NULL;
 		}
-		for (slowRunner, fastRunner;
-			fastRunner != NULL && fastRunner->link() != NULL;
-			fastRunner = fastRunner->link(), slowRunner = slowRunner->link()) {
+		for (s = head_ptr, f; f != NULL; f = f->link(), s = s->link()) {
+			if (s == f) {
+				break;
+			}
 		}
-		return fastRunner;
+		return f;
 	}
 	
 

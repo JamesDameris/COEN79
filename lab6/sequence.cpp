@@ -55,10 +55,17 @@ namespace coen79_lab6
         init();
         *this = source;
     }
+/* Function: start
+   Description: initializes the precursor and cursor to the first item of the list
+*/
     void sequence::start(){
         cursor = head_ptr;
         precursor = NULL;
     }
+/* Function: end
+   Description: adjusts the precursor and cursor to make the last item in the list the current item.
+   Runtime: O(n)
+*/
     void sequence::end(){
         cursor = tail_ptr;
         node* temp;
@@ -68,6 +75,9 @@ namespace coen79_lab6
             }
         }
     }
+/* Function: advance
+   Description: adjusts the current item to be the next item in the list
+*/
     void sequence::advance(){
         assert(is_item() == true);
         if (cursor == tail_ptr) {
@@ -80,6 +90,10 @@ namespace coen79_lab6
             cursor = cursor->link();
         }
     }
+/* Function: insert
+   Description: inserts an item before the current item, or at the front of the list if there is no current item
+   Runtime: O(1)
+*/
     void sequence::insert(const value_type& entry) {
         if (head_ptr == NULL) {
             list_head_insert(head_ptr, entry);
@@ -101,6 +115,10 @@ namespace coen79_lab6
         }
         many_nodes++;
     }
+/* Function: attach
+   Description: inserts an item to the back of the list
+   Runtime: O(1)
+*/
     void sequence::attach(const value_type& entry) {
         if (head_ptr == NULL) {
             list_head_insert(head_ptr, entry);
@@ -126,6 +144,9 @@ namespace coen79_lab6
         many_nodes++;
 
     }
+/* Function: operator=
+   Description: overloads the copy constructor
+*/
     void sequence::operator=(const sequence& source) {
         if (this == &source) {
             return;
@@ -147,7 +168,9 @@ namespace coen79_lab6
             cursor = NULL;
         }
         
-        
+/* Function: remove current
+   Description: removes the item that the cursor is pointing to
+*/        
     }
     void sequence::remove_current(){
         assert(is_item() == true);
@@ -165,22 +188,32 @@ namespace coen79_lab6
             list_remove(precursor);
         }
         many_nodes--;
-
+/* Function: size
+   Description: returns the size of the list
+*/
     }
     sequence::size_type sequence::size() const{
         return many_nodes;
     }
+/* Function: is_item
+   Description: determines whether or not there is a valid current item in the list
+*/
     bool sequence::is_item() const{
         if (cursor == NULL) {
             return false;
         }
         return true;
     }
+/* Function: current
+   Description: returns the value of the current item
+*/
     sequence::value_type sequence::current( ) const{
         assert(is_item() == true);
         return cursor->data();
     }
-
+/* Function: ~sequence
+   Description: destructor for the sequence class
+*/
     sequence::~sequence() {
         list_clear(head_ptr);
     }

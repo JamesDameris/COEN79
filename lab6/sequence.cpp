@@ -44,13 +44,13 @@ namespace coen79_lab6
     }
 
     //CONSTRUCTOR IMPLEMENTATION for default constructor
-    sequence :: sequence ()
+    sequence::sequence ()
     {
         init();
     }
 
     //Copy Constructor
-    sequence :: sequence(const sequence& source)
+    sequence::sequence(const sequence& source)
     {
         init();
         *this = source;
@@ -60,46 +60,90 @@ namespace coen79_lab6
     }
     void sequence::end(){
         cursor = tail_ptr;
-        for (cursor = head_ptr; cursor != NULL; cursor = cursor->link( ))
-            if(tail_ptr = cursor->link()){
-                precursor = cursor;
+        node* temp;
+        for (temp = head_ptr; temp != NULL; temp = temp->link()) {
+            if(temp->link() == tail_ptr){
+                precursor = temp;
             }
+        }
     }
     void sequence::advance(){
         assert(is_item() == true);
-        if(cursor = tail_ptr){
-            list_remove(precursor);
+        if (cursor == tail_ptr) {
+            precursor = cursor;
+            cursor = NULL;
+
         }
-        else{
+        else {
+            precursor = cursor;
             cursor = cursor->link();
         }
     }
-    void sequence::insert(const value_type& entry){
+    void sequence::insert(const value_type& entry) {
         if(head_ptr == NULL){
             list_head_insert(head_ptr, entry);
+            cursor = head_ptr;
+        }
+        else{
+            list_insert(precursor, entry);
+            cursor = precursor->link();
+        }
+        
+        many_nodes++;
+    }
+    void sequence::attach(const value_type& entry) {
+        if(head_ptr == NULL) {
+            list_head_insert(head_ptr, entry);
+            cursor = head_ptr;
         }
         else{
             list_insert(cursor, entry);
+            cursor = cursor->link();
+            precursor = cursor;
         }
-    }
-    void sequence::attach(const value_type& entry){
+        many_nodes++;
 
     }
-    void sequence::operator=(const sequence& source){
-
+    void sequence::operator=(const sequence& source) {
+        if (this == &source) {
+            return;
+        }
+        list_clear(head_ptr);
+        many_nodes = 0;
+        list_copy(source.head_ptr, head_ptr, tail_ptr);
+        many_nodes = source.many_nodes;
+        cursor = source.cursor;
+        precursor = source.precursor;
     }
     void sequence::remove_current(){
+        assert(is_item() == true);
+        if (precursor == NULL) {
+            cursor = cursor->link();
+            list_head_remove(head_ptr);
+        }
+        else {
+            cursor = cursor->link();
+            list_remove(precursor);
+        }
+        many_nodes--;
 
     }
     sequence::size_type sequence::size() const{
         return many_nodes;
     }
     bool sequence::is_item() const{
-        
+        if (cursor == NULL) {
+            return false;
+        }
+        return true;
     }
     sequence::value_type sequence::current( ) const{
         assert(is_item() == true);
         return cursor->data();
+    }
+
+    sequence::~sequence() {
+        list_clear(head_ptr);
     }
     
 }

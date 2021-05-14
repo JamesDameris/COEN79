@@ -164,7 +164,6 @@ namespace coen79_lab6
 		tail_ptr = head_ptr;
 		
 		cursor = start_ptr->link();
-		// inserts 
 		for (cursor; cursor != end_ptr && cursor != NULL; cursor = cursor->link()) {
 			list_insert(tail_ptr,cursor->data());
 			tail_ptr = tail_ptr->link();
@@ -237,8 +236,9 @@ namespace coen79_lab6
 	}
 	
     void list_remove_dups(node* head_ptr) { 
-		// removes all duplicates in the list, 
-		// starts at the head and then compares the rest of the list to the head
+		// removes all duplicates in the list. 
+		// Starts at the head and then compares the rest of the list 
+		// to the head, then iterates to the next node in the list
 		node* cursor = head_ptr;
 		node* temp;
 		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {

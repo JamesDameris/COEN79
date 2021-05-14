@@ -6,8 +6,9 @@
             "command": "/bin/g++",
             "args": [
                 "-g",
+                "sequence.cpp",
                 "node.cpp",
-                "node_test.cpp",
+                "seq_test.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

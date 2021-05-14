@@ -57,6 +57,7 @@ namespace coen79_lab6
     }
     void sequence::start(){
         cursor = head_ptr;
+        precursor = NULL;
     }
     void sequence::end(){
         cursor = tail_ptr;
@@ -80,7 +81,17 @@ namespace coen79_lab6
         }
     }
     void sequence::insert(const value_type& entry) {
-        if(head_ptr == NULL){
+        if (head_ptr == NULL) {
+            list_head_insert(head_ptr, entry);
+            cursor = head_ptr;
+            tail_ptr = head_ptr;
+        }
+        else if (cursor == NULL) {
+            list_head_insert(head_ptr, entry);
+            cursor = head_ptr;
+            precursor = NULL;
+        }
+        else if (cursor == head_ptr) {
             list_head_insert(head_ptr, entry);
             cursor = head_ptr;
         }
@@ -88,18 +99,29 @@ namespace coen79_lab6
             list_insert(precursor, entry);
             cursor = precursor->link();
         }
-        
         many_nodes++;
     }
     void sequence::attach(const value_type& entry) {
-        if(head_ptr == NULL) {
+        if (head_ptr == NULL) {
             list_head_insert(head_ptr, entry);
             cursor = head_ptr;
+            tail_ptr = cursor;
         }
-        else{
+        else if (cursor == NULL) {
+            list_insert(tail_ptr, entry);
+            cursor = tail_ptr->link();
+            tail_ptr = cursor;
+        }
+        else if (cursor == tail_ptr) {
             list_insert(cursor, entry);
-            cursor = cursor->link();
             precursor = cursor;
+            cursor = cursor->link();
+            tail_ptr = cursor;
+        }
+        else {
+            list_insert(cursor, entry);
+            precursor = cursor;
+            cursor = cursor->link();
         }
         many_nodes++;
 
@@ -112,14 +134,31 @@ namespace coen79_lab6
         many_nodes = 0;
         list_copy(source.head_ptr, head_ptr, tail_ptr);
         many_nodes = source.many_nodes;
-        cursor = source.cursor;
-        precursor = source.precursor;
+        if (source.precursor != NULL) {
+            precursor = list_search(head_ptr, source.precursor->data());
+        }
+        else {
+            precursor = NULL;
+        }
+        if (source.cursor != NULL) {
+            cursor = list_search(head_ptr, source.cursor->data());
+        }
+        else {
+            cursor = NULL;
+        }
+        
+        
     }
     void sequence::remove_current(){
         assert(is_item() == true);
         if (precursor == NULL) {
             cursor = cursor->link();
             list_head_remove(head_ptr);
+        }
+        else if (cursor == tail_ptr) {
+            tail_ptr = precursor;
+            list_remove(precursor);
+            cursor = NULL;
         }
         else {
             cursor = cursor->link();

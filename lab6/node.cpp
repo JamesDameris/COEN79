@@ -156,11 +156,12 @@ namespace coen79_lab6
 			tail_ptr = NULL;
 			return;
 		}
-		list_head_insert(head_ptr,start_ptr->data());
-		tail_ptr = head_ptr;
 		if (start_ptr == end_ptr) {
 			return;
 		}
+		list_head_insert(head_ptr,start_ptr->data());
+		tail_ptr = head_ptr;
+		
 		cursor = start_ptr->link();
 		for (cursor; cursor != end_ptr && cursor != NULL; cursor = cursor->link()) {
 			list_insert(tail_ptr,cursor->data());
@@ -251,11 +252,6 @@ namespace coen79_lab6
 				break;
 			}
 		}
-		// for (s, f; f != NULL && f->link() != NULL; f = f->link()->link(), s = s->link()) {
-		// 	if (f == s) {
-		// 		break;
-		// 	}
-		// }
 		if (f != s) {
 			return NULL;
 		}

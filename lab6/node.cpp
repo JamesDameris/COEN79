@@ -149,6 +149,7 @@ namespace coen79_lab6
     }
 
 	void list_piece(node* start_ptr, node* end_ptr, node*& head_ptr, node*& tail_ptr) { 
+		// copies a piece of the list given by start_ptr and (not including) end_ptr and gives them to a new head and tail pointer
 		list_clear(head_ptr);
 		node* cursor;
 		if (start_ptr == NULL && end_ptr == NULL) {
@@ -163,6 +164,7 @@ namespace coen79_lab6
 		tail_ptr = head_ptr;
 		
 		cursor = start_ptr->link();
+		// inserts 
 		for (cursor; cursor != end_ptr && cursor != NULL; cursor = cursor->link()) {
 			list_insert(tail_ptr,cursor->data());
 			tail_ptr = tail_ptr->link();
@@ -170,8 +172,10 @@ namespace coen79_lab6
 	}
 	
     size_t list_occurrences(node* head_ptr, const node::value_type& target) { 
+		// counts the number of occurrences of the target variable
     	const node *cursor;
 		size_t count = 0;
+		// loops to count the number of times target is found
     	for (cursor = head_ptr; cursor != NULL; cursor = cursor->link( )){
     	    if (target == cursor->data( )){
         		count++;
@@ -181,6 +185,7 @@ namespace coen79_lab6
 	}
 	
     void list_insert_at(node*& head_ptr, const node::value_type& entry, size_t position) { 
+		// inserts a node with the given value before the given position on the linked list provided by head
 		node* hold;
     	assert (position > 0 && position <= list_length(head_ptr)+1);
 		if (position == 1) {
@@ -192,6 +197,7 @@ namespace coen79_lab6
 	}
 	
     node::value_type list_remove_at(node*& head_ptr, size_t position) { 
+		// removes the node at the given position on the linked list provided by head
 		node* hold;
 		node::value_type dTemp;
 		assert (0 < position && position <= list_length(head_ptr));
@@ -208,6 +214,8 @@ namespace coen79_lab6
 	}
 	
     node* list_copy_segment(node* head_ptr, size_t start, size_t finish) { 
+		// uses list_piece but through usage of positions rather than start and finish nodes
+		assert((1 <= start) && (start <= finish) && (finish <= list_length(head_ptr)));
 	 	node* begin = list_locate(head_ptr,start);
 		node* end = list_locate(head_ptr,finish+1);
 		node* newBeg = new node();
@@ -217,6 +225,7 @@ namespace coen79_lab6
 	}
 	
     void list_print (const node* head_ptr) { 
+		// prints the data on the nodes in the list with proper formatting
 		const node* cursor = head_ptr;
 		for (cursor; cursor != NULL; cursor = cursor->link()) {
 			cout << cursor->data();
@@ -228,6 +237,8 @@ namespace coen79_lab6
 	}
 	
     void list_remove_dups(node* head_ptr) { 
+		// removes all duplicates in the list, 
+		// starts at the head and then compares the rest of the list to the head
 		node* cursor = head_ptr;
 		node* temp;
 		for (head_ptr; head_ptr != NULL && head_ptr->link() != NULL; head_ptr = head_ptr->link()) {
@@ -245,6 +256,9 @@ namespace coen79_lab6
 		// f is fast runner, s is slow runner
 		node* f = head_ptr;
 		node* s = head_ptr;
+
+		// both fast and slow runner go through the loop until they meet or fast is NULL
+		// fast moves by 2 nodes and moves by 1
 		while (f != NULL && f->link() != NULL) {
 			s = s->link();
 			f = f->link()->link();
@@ -252,9 +266,11 @@ namespace coen79_lab6
 				break;
 			}
 		}
+		// return if they don't meet
 		if (f != s) {
 			return NULL;
 		}
+		// loops for the loops beginning
 		for (s = head_ptr, f; f != NULL; f = f->link(), s = s->link()) {
 			if (s == f) {
 				break;

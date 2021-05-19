@@ -46,6 +46,7 @@ namespace coen79_lab7
         used_slots = rhs.used_slots;
         reserve(used_slots + 1);
         std::copy(rhs.company_array,rhs.company_array + rhs.used_slots, company_array);
+        return *this;
     }
     
     
@@ -98,16 +99,20 @@ namespace coen79_lab7
         if (pos != COMPANY_NOT_FOUND) {
             return false;
         }
-        
-        
+        company_array[pos].insert(product_name, price);
+        return true;
     }
     
     
     bool database::erase_company(const std::string &company) {
         
         size_type company_index = search_company(company);
+        if (company_index == COMPANY_NOT_FOUND) {
+            return false;
+        }
         delete (company_array + company_index);
         company_array[company_index] = company_array[used_slots - 1];
+        return true;
     }
     
     

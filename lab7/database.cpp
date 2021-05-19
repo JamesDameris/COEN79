@@ -36,20 +36,21 @@ namespace coen79_lab7
     
     database::database(const database &src) {
         Debug("Copy constructor..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+        used_slots = src.used_slots;
+        aloc_slots = used_slots + 1;
+        company_array = new company[aloc_slots];
     }
     
     
     database& database::operator= (const database &rhs) {
-        Debug("Assignment operator..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+        used_slots = rhs.used_slots;
+        reserve(used_slots + 1);
+        std::copy(rhs.company_array,rhs.company_array + rhs.used_slots, company_array);
     }
     
     
     database::~database() {
-        // COMPLETE THE IMPLEMENTATION...
+        delete [] company_array;
     }
     
     
@@ -82,8 +83,10 @@ namespace coen79_lab7
         if (pos != COMPANY_NOT_FOUND) {
             return false;
         }
-
-        // COMPLETE THE IMPLEMENTATION...
+        else{
+            company_array[pos] = entry;
+            return true;
+        }
     }
     
     
@@ -91,8 +94,11 @@ namespace coen79_lab7
         Debug("Insert item..." << std::endl);
 
         assert(company.length() > 0 && product_name.length() > 0);
-
-        // COMPLETE THE IMPLEMENTATION...
+        size_type pos = search_company(company);
+        if (pos != COMPANY_NOT_FOUND) {
+            return false;
+        }
+        
         
     }
     

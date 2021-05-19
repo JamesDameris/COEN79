@@ -62,7 +62,11 @@ namespace coen79_lab7
         if (new_capacity < used_slots)
             new_capacity = used_slots; // Canít allocate less than we are using.
         
-        // COMPLETE THE IMPLEMENTATION...
+        company* tmp = new company[new_capacity];
+        std::copy(company_array,company_array + new_capacity, tmp);
+        delete [] company_array;
+        company_array = tmp;
+        aloc_slots = new_capacity+1;
     }
     
     
@@ -96,16 +100,16 @@ namespace coen79_lab7
     bool database::erase_company(const std::string &company) {
         
         size_type company_index = search_company(company);
-        
-        // COMPLETE THE IMPLEMENTATION...
+        delete (company_array + company_index);
+        company_array[company_index] = company_array[used_slots - 1];
     }
     
     
     bool database::erase_item(const std::string& cName, const std::string& pName) {
         
         assert(cName.length() > 0 && pName.length() > 0);
-
-        // COMPLETE THE IMPLEMENTATION...
+        size_type company_index = search_company(cName);
+        return company_array[company_index].erase(pName);
     }
     
     
@@ -113,7 +117,12 @@ namespace coen79_lab7
     database::size_type database::search_company(const std::string& company) {
         assert(company.length() > 0);
 
-        // COMPLETE THE IMPLEMENTATION...
+        for (int i = 0; i < used_slots; ++i) {
+            if (company_array[i].get_name() == company) {
+                return i;
+            }
+        }
+        return COMPANY_NOT_FOUND;
     }
     
     

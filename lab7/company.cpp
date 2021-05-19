@@ -23,21 +23,26 @@ namespace coen79_lab7
     
     company::company(const std::string& company_name) {
         assert(company_name.length() > 0);
-
-        // COMPLETE THE IMPLEMENTATION...
+        this->company_name = company_name;
+        this->head_ptr = NULL;
+        this->tail_ptr = NULL;
     }
     
     company::company(const company &src) {
         Debug("Company copy constructor..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+        this->head_ptr = NULL;
+        this->tail_ptr = NULL;
+        *this = src;
     }
 
     
     company& company::operator= (const company &src) {
         Debug("Company assignemnt operator..." << std::endl);
-
-        // COMPLETE THE IMPLEMENTATION...
+        if (this == &src) {
+            return;
+        }
+        list_clear(head_ptr);
+        list_copy(src.head_ptr, head_ptr, tail_ptr);
     }
     
     
@@ -80,10 +85,11 @@ namespace coen79_lab7
         }
         
         if (head_ptr == NULL) {
-            // COMPLETE THE IMPLEMENTATION...
+            node* insert_ptr = new node(product_name, price, NULL);
+    	    head_ptr = tail_ptr = insert_ptr;
         }
         else {
-            // COMPLETE THE IMPLEMENTATION...
+            list_tail_insert(tail_ptr, product_name, price);
         }
         
         return true;
@@ -92,8 +98,14 @@ namespace coen79_lab7
     
     bool company::erase(const std::string& product_name) {
         assert(product_name.length() > 0);
-
-        // COMPLETE THE IMPLEMENTATION...
+        node* target = list_search(head_ptr, product_name);
+        if (target != NULL) {
+            delete target;
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     
     

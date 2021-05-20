@@ -44,6 +44,7 @@ namespace coen79_lab7
     
     
     database& database::operator= (const database &rhs) {
+        std::cout << "copying elements of database...";
         used_slots = rhs.used_slots;
         reserve(used_slots + 1);
         std::copy(rhs.company_array,rhs.company_array + rhs.used_slots, company_array);

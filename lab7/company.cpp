@@ -50,7 +50,6 @@ namespace coen79_lab7
     
     company::~company() {
         list_clear(head_ptr);
-        tail_ptr = NULL;
     }
     
     

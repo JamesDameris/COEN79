@@ -42,6 +42,7 @@ namespace coen79_lab7
             return *this;
         }
         list_clear(head_ptr);
+        this->company_name = src.company_name;
         list_copy(src.head_ptr, head_ptr, tail_ptr);
         return *this;
     }

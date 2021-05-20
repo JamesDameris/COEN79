@@ -39,6 +39,7 @@ namespace coen79_lab7
         used_slots = src.used_slots;
         aloc_slots = used_slots + 1;
         company_array = new company[aloc_slots];
+        *this = src;
     }
     
     
@@ -65,7 +66,7 @@ namespace coen79_lab7
             new_capacity = used_slots; // Canít allocate less than we are using.
         
         company* tmp = new company[new_capacity];
-        std::copy(company_array,company_array + new_capacity, tmp);
+        std::copy(company_array,company_array + used_slots, tmp);
         delete [] company_array;
         company_array = tmp;
         aloc_slots = new_capacity+1;
@@ -84,10 +85,13 @@ namespace coen79_lab7
         if (pos != COMPANY_NOT_FOUND) {
             return false;
         }
-        else{
-            company_array[pos] = entry;
-            return true;
+        if (used_slots == aloc_slots) {
+            reserve(aloc_slots * 2);
         }
+        company* init = new company(entry);
+        company_array[used_slots] = *init;
+        ++used_slots;
+        return true;
     }
     
     

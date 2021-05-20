@@ -1,4 +1,5 @@
 // FILE: database.cpp
+// Authors: James Dameris and Zach Azer
 // CLASS implemented: database (see database.h for documentation)
 
 // INVARIANT for the database ADT:
@@ -26,14 +27,18 @@
 
 namespace coen79_lab7
 {
-    
+/* Function: constructor
+ * Description: Creates a database object with no used entries and sets the initial size of the dynamic array
+*/ 
     database::database(const size_type& initial_capacity) {
         used_slots = 0;
         aloc_slots = initial_capacity;
         company_array = new company[aloc_slots];
     }
     
-    
+/* Function: copy constructor
+ * Description: creates the copy constructor for the database class
+*/ 
     database::database(const database &src) {
         Debug("Copy constructor..." << std::endl);
         used_slots = src.used_slots;
@@ -42,7 +47,9 @@ namespace coen79_lab7
         *this = src;
     }
     
-    
+/* Function: assignment operator
+ * Description: sets the assignment operator for the database class
+*/ 
     database& database::operator= (const database &rhs) {
         std::cout << "copying elements of database...";
         used_slots = rhs.used_slots;
@@ -51,12 +58,16 @@ namespace coen79_lab7
         return *this;
     }
     
-    
+/* Function: destructor
+ * Description: clears the dynamic array
+*/ 
     database::~database() {
         delete [] company_array;
     }
-    
-    
+/* Function: reserve
+ * Description: sets the capacity to the new capacity
+ * Runtime: O(1)
+*/     
     void database::reserve(size_type new_capacity) {
         Debug("Reserve..." << std::endl);
 
@@ -72,8 +83,10 @@ namespace coen79_lab7
         company_array = tmp;
         aloc_slots = new_capacity;
     }
-    
-    
+/* Function: Insert company
+ * Description: Inserts a new company to the list
+ * Runtime: O(n)
+*/    
     bool database::insert_company(const std::string &entry) {
         
         Debug("Insert company..." << std::endl);
@@ -94,7 +107,10 @@ namespace coen79_lab7
         ++used_slots;
         return true;
     }
-    
+/* Function: insert item
+ * Description: adds a new product to the list pertaining to a specific company
+ * Runtime: O(n)
+*/ 
     
     bool database::insert_item(const std::string &company, const std::string &product_name, const float &price) {
         Debug("Insert item..." << std::endl);
@@ -107,7 +123,10 @@ namespace coen79_lab7
         company_array[pos].insert(product_name, price);
         return true;
     }
-    
+/* Function: erase company
+ * Description: removes a company and its products from the database
+ * Runtime: O(n)
+*/ 
     
     bool database::erase_company(const std::string &company) {
         
@@ -121,7 +140,10 @@ namespace coen79_lab7
         --used_slots;
         return true;
     }
-    
+/* Function: erase item
+ * Description: erases a product from the database
+ * Runtime: O(n)
+*/ 
     
     bool database::erase_item(const std::string& cName, const std::string& pName) {
         
@@ -129,9 +151,10 @@ namespace coen79_lab7
         size_type company_index = search_company(cName);
         return company_array[company_index].erase(pName);
     }
-    
-    
-    
+/* Function: search company
+ * Description: searches for a company in the database
+ * Runtime: O(n)
+*/ 
     database::size_type database::search_company(const std::string& company) {
         assert(company.length() > 0);
 
@@ -142,8 +165,10 @@ namespace coen79_lab7
         }
         return COMPANY_NOT_FOUND;
     }
-    
-    
+/* Function: print items by company
+ * Description: prints out all of the items corresponding to a specified company
+ * Runtime: O(n)
+*/     
     bool database::print_items_by_company(const std::string& cName) {
         assert(cName.length() > 0);
 
@@ -159,7 +184,10 @@ namespace coen79_lab7
         
         return true;
     }
-    
+/* Function: print companies
+ * Description: prints a list of companies in the database
+ * Runtime: O(n)
+*/ 
     
     void database::print_companies() {
         

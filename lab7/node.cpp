@@ -48,8 +48,10 @@ namespace coen79_lab7
     
     
     void list_tail_insert(node*& tail, const std::string &newName, const float &newPrice) {
+        // assert(tail != NULL && newName != "");
         node* insert_ptr = new node(newName, newPrice, NULL);
     	tail->setLink(insert_ptr);
+        tail = tail->getLink();
     }
     
     

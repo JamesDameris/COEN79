@@ -69,7 +69,7 @@ namespace coen79_lab7
         std::copy(company_array,company_array + used_slots, tmp);
         delete [] company_array;
         company_array = tmp;
-        aloc_slots = new_capacity+1;
+        aloc_slots = new_capacity;
     }
     
     
@@ -100,7 +100,7 @@ namespace coen79_lab7
 
         assert(company.length() > 0 && product_name.length() > 0);
         size_type pos = search_company(company);
-        if (pos != COMPANY_NOT_FOUND) {
+        if (pos == COMPANY_NOT_FOUND) {
             return false;
         }
         company_array[pos].insert(product_name, price);
@@ -114,8 +114,10 @@ namespace coen79_lab7
         if (company_index == COMPANY_NOT_FOUND) {
             return false;
         }
-        delete (company_array + company_index);
-        company_array[company_index] = company_array[used_slots - 1];
+        for (int i = company_index; i < used_slots - 1; ++i) {
+            company_array[i] = company_array[i + 1];
+        }
+        --used_slots;
         return true;
     }
     

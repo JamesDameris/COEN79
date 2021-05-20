@@ -50,6 +50,7 @@ namespace coen79_lab7
     
     company::~company() {
         list_clear(head_ptr);
+        tail_ptr = NULL;
     }
     
     
@@ -101,7 +102,15 @@ namespace coen79_lab7
     bool company::erase(const std::string& product_name) {
         assert(product_name.length() > 0);
         node* target = list_search(head_ptr, product_name);
+        node* cursor = head_ptr;
         if (target != NULL) {
+            while (cursor != target) {
+                if (cursor->getLink() == target) {
+                    break;
+                }
+                cursor = cursor->getLink();
+            }
+            cursor->setLink(target->getLink());
             delete target;
             return true;
         }

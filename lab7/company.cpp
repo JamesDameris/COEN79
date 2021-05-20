@@ -1,4 +1,5 @@
 // FILE: company.cpp
+// Authors: James Dameris and Zach Azer
 // CLASS implemented: company (see company.h for documentation)
 
 

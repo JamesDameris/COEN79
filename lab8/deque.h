@@ -359,6 +359,7 @@ namespace coen79_lab8
             last_bp = first_bp = block_pointers + bp_mid - 1;
             
             // STUDENT WORK...
+            *first_bp = new value_type[block_size];
             **first_bp = entry;
             front_ptr = back_ptr = *first_bp;
         }
@@ -379,7 +380,8 @@ namespace coen79_lab8
         {
             // STUDENT WORK...
             --first_bp;
-            front_ptr = first_bp[block_size - 1];
+            *first_bp = new value_type[block_size];
+            front_ptr = first_bp[0][block_size - 1];
             *front_ptr = entry;
         }
         
@@ -389,7 +391,9 @@ namespace coen79_lab8
         {
             // STUDENT WORK...
             reserve();
-            front_ptr = first_bp[block_size - 1];
+            --first_bp;
+            *first_bp = new value_type[block_size];
+            front_ptr = first_bp[0][block_size - 1];
             *front_ptr = entry;
         }
     }
@@ -407,8 +411,10 @@ namespace coen79_lab8
             last_bp = first_bp = block_pointers + bp_mid  - 1;
 
             // STUDENT WORK...
+            *first_bp = new value_type[block_size];
             **first_bp = entry;
             front_ptr = back_ptr = *first_bp;
+            
         }
         
         // There is at least one empty slot after the entry
@@ -427,6 +433,7 @@ namespace coen79_lab8
         {
             // STUDENT WORK...
             ++last_bp;
+            *last_bp = new value_type[block_size];
             back_ptr = *last_bp;
             *back_ptr = entry;
         }
@@ -438,6 +445,7 @@ namespace coen79_lab8
             // STUDENT WORK...
             reserve();
             ++last_bp;
+            *last_bp = new value_type[block_size];
             back_ptr = *last_bp;
             *back_ptr = entry;
         }
@@ -485,7 +493,7 @@ namespace coen79_lab8
         else if (back_ptr == *last_bp)
         {
             // STUDENT WORK...
-            delete [] last_bp;
+            delete [] *last_bp;
             *last_bp = NULL;
             --last_bp;
             back_ptr = last_bp[block_size - 1];

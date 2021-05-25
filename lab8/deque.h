@@ -223,8 +223,8 @@ namespace coen79_lab8
         
         // Create a new array of block pointers
         // STUDENT WORK...
-        deque newArray(source.bp_array_size,source.block_size);
-
+        block_pointers = new value_type*[bp_array_size];
+        block_pointers_end = block_pointers + (bp_array_size-1);
         
         
         // Copy the data blocks of "source" object
@@ -260,6 +260,9 @@ namespace coen79_lab8
                     block_pointers[bp_array_index][block_item_index] = source.block_pointers[bp_array_index][block_item_index];
                     if (&source.block_pointers[bp_array_index][block_item_index] == source.front_ptr) {
                         front_ptr = &block_pointers[bp_array_index][block_item_index];
+                    }
+                    if (&source.block_pointers[bp_array_index][block_item_index] == source.back_ptr) {
+                        back_ptr = &block_pointers[bp_array_index][block_item_index];
                     }
 
                 }
@@ -381,8 +384,8 @@ namespace coen79_lab8
             // STUDENT WORK...
             --first_bp;
             *first_bp = new value_type[block_size];
-            front_ptr = first_bp[0][block_size - 1];
-            *front_ptr = entry;
+            front_ptr = *first_bp + block_size - 1;
+            *front_ptr = entry;           
         }
         
         // Data block has no room left before front_ptr;
@@ -393,7 +396,7 @@ namespace coen79_lab8
             reserve();
             --first_bp;
             *first_bp = new value_type[block_size];
-            front_ptr = first_bp[0][block_size - 1];
+            front_ptr = *first_bp + block_size - 1;
             *front_ptr = entry;
         }
     }
@@ -467,7 +470,6 @@ namespace coen79_lab8
         else if (front_ptr == ((*first_bp) + block_size - 1))
         {
             // STUDENT WORK...
-            delete [] first_bp;
             *first_bp = NULL;
             ++first_bp;
             front_ptr = *first_bp;
@@ -493,10 +495,9 @@ namespace coen79_lab8
         else if (back_ptr == *last_bp)
         {
             // STUDENT WORK...
-            delete [] *last_bp;
             *last_bp = NULL;
             --last_bp;
-            back_ptr = last_bp[block_size - 1];
+            back_ptr = *last_bp + block_size - 1;
         }
         else
         {

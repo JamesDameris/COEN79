@@ -59,7 +59,7 @@ namespace coen79_lab8
         { return *cursor; }
         
         
-        bool operator !=(const deque_iterator other) const
+        bool operator !=(const deque_iterator other) const 
         { return (block_pointers != other.block_pointers || block_pointers_end != other.block_pointers_end
                   || first_bp != other.first_bp  || last_bp != other.last_bp
                   || front_ptr != other.front_ptr  || back_ptr != other.back_ptr
@@ -106,7 +106,6 @@ namespace coen79_lab8
             // Move forward
             else
             {
-                // STUDENT WORK...
                 ++cursor;
             }
             
@@ -135,7 +134,6 @@ namespace coen79_lab8
             // Move to the next data block
             if (cursor == current_boundary)
             {
-                // STUDENT WORK...
                 current_block_pointer++;
                 cursor = *current_block_pointer;
                 current_boundary = *current_block_pointer + (block_size - 1);
@@ -143,7 +141,6 @@ namespace coen79_lab8
             // Move forward
             else
             {
-                // STUDENT WORK...
                 cursor++;
 
             }

@@ -214,14 +214,14 @@ namespace coen79_lab9
         {   // Continue looking in the left subtree
             
             // STUDENT WORK
-            return bst_remove_all(root->left(), target);
+            return bst_remove_all(root_ptr->left(), target);
         }
         
         if (target > root_ptr->data( ))
         {   // Continue looking in the right subtree
             
             // STUDENT WORK
-            return bst_remove_all(root->right(), target);
+            return bst_remove_all(root_ptr->right(), target);
         }
         
         if (root_ptr->left( ) == NULL)
@@ -244,7 +244,6 @@ namespace coen79_lab9
         
         // STUDENT WORK
         bst_remove_max(root_ptr->left(), root_ptr->data());
-        return bst_remove_all(root_ptr, target);
         return 1 + bst_remove_all(root_ptr, target);
     }
     
@@ -265,6 +264,8 @@ namespace coen79_lab9
     // Library facilities used: bintree.h
     {
         // STUDENT WORK
+        root_ptr->data() = source.root_ptr->data();
+        root_ptr = tree_copy(source.root_ptr);
     }
     
     
@@ -311,12 +312,31 @@ namespace coen79_lab9
             {   // Go left
                 
                 // STUDENT WORK
-                
+                if (cursor->left() == NULL) { 
+                    /* Entry is both less than or equal to cursor's data and the left child */
+                    /* points to null, so we can make a new node with entry as its data */
+                    cursor->left() = new binary_tree_node<Item> (entry);
+                    done = true;
+                    return;
+                }
+                else { // Keep traversing left since it is less than or equal
+                    cursor = cursor->left();
+                }
             }
             else
             {   // Go right
 
                 // STUDENT WORK
+                if (cursor->right() == NULL) {
+                    /* Entry is greater than the cursor's data and the right child */
+                    /* points to null, so we can make a new node with entry as its data */
+                    cursor->right() = new binary_tree_node<Item> (entry);
+                    done = true;
+                    return;
+                }
+                else { // Keep traversing right since it is greater
+                    cursor = cursor->right();
+                }
                 
             }
         }   while (!done);
@@ -337,6 +357,13 @@ namespace coen79_lab9
             else
             {
                 // STUDENT WORK
+                if (cursor->data() == target) {
+                    ++answer;
+                    cursor = cursor->left();
+                }
+                else {
+                    cursor = cursor->right();
+                }
             }
         }
         return answer;
@@ -367,6 +394,11 @@ namespace coen79_lab9
     // Header file used: bintree.h
     {
         // STUDENT WORK
+        if (this == &source) {
+            return;
+        }
+        tree_clear(this->root_ptr);
+        root_ptr = tree_copy(source.root_ptr);
     }
     
     
@@ -376,6 +408,8 @@ namespace coen79_lab9
         if (root_ptr == addend.root_ptr)
         {
             // STUDENT WORK
+            bag<Item> b = new bag<Item> ();
+            insert_all(b.root_ptr);
         }
         else
             insert_all(addend.root_ptr);
@@ -386,6 +420,9 @@ namespace coen79_lab9
     bag<Item> operator +(const bag<Item>& b1, const bag<Item>& b2)
     {
         // STUDENT WORK
+        bag<Item> b = new bag<Item> (b1);
+        return b += b2;
+
     }
     
     
@@ -398,9 +435,11 @@ namespace coen79_lab9
     // have been added to the binary search tree of the bag that activated this
     // method.
     {
-        if (addroot_ptr != NULL)
-        {
+        if (addroot_ptr != NULL) {
             // STUDENT WORK
+            insert(addroot_ptr->data());
+            insert_all(addroot_ptr->left());
+            insert_all(addroot_ptr->right());
         }
     }
 

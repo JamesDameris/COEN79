@@ -133,6 +133,10 @@ namespace coen79_lab9
         else
         {
             // STUDENT WORK
+            binary_tree_node<Item>* tmp = root_ptr;
+            removed = root_ptr->data();
+            root_ptr = root_ptr->left();
+            delete tmp;
         }
     }
     
@@ -158,13 +162,14 @@ namespace coen79_lab9
         {   // Continue looking in the left subtree
             
             // STUDENT WORK
-            
+            return bst_remove(root_ptr->left(), target);
         }
         
         if (target > root_ptr->data( ))
         {   // Continue looking in the right subtree
             
             // STUDENT WORK
+            return bst_remove(root_ptr->right(), target);
         }
         
         // Target found
@@ -173,6 +178,9 @@ namespace coen79_lab9
             // remove this node, making the right child be the new root.
 
             // STUDENT WORK
+            binary_tree_node<Item>* tmp = root_ptr;
+            root_ptr = root_ptr->right();
+            delete tmp;
         }
         
         // If code reaches this point, then we must remove the target from
@@ -180,6 +188,7 @@ namespace coen79_lab9
         // maximum item of left subtree.
 
         // STUDENT WORK
+        bst_remove_max(root_ptr->left(), root_ptr->data());
         
         return true;
     }
@@ -205,13 +214,14 @@ namespace coen79_lab9
         {   // Continue looking in the left subtree
             
             // STUDENT WORK
-            
+            return bst_remove_all(root->left(), target);
         }
         
         if (target > root_ptr->data( ))
         {   // Continue looking in the right subtree
             
             // STUDENT WORK
+            return bst_remove_all(root->right(), target);
         }
         
         if (root_ptr->left( ) == NULL)
@@ -219,6 +229,9 @@ namespace coen79_lab9
             // remove this node, making the right child be the new root.
 
             // STUDENT WORK
+            binary_tree_node<Item>* tmp = root_ptr;
+            root_ptr = root_ptr->right();
+            delete tmp;
         }
         
         // If code reaches this point, then we must remove the target from
@@ -230,7 +243,8 @@ namespace coen79_lab9
         // might also be a copy of the target).
         
         // STUDENT WORK
-        
+        bst_remove_max(root_ptr->left(), root_ptr->data());
+        return bst_remove_all(root_ptr, target);
         return 1 + bst_remove_all(root_ptr, target);
     }
     

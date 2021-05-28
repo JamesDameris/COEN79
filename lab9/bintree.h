@@ -192,9 +192,11 @@ namespace coen79_lab9
     void inorder(Process f, BTNode* node_ptr)
     // Library facilities used: cstdlib
     {
-        if (node_ptr != NULL)
-        {
+        if (node_ptr != NULL) {
             // STUDENT WORK
+            inorder(f, node_ptr->left());
+            f(node_ptr->data);
+            inorder(f, node_ptr->right());
         }
     }
     
@@ -203,6 +205,11 @@ namespace coen79_lab9
     // Library facilities used: cstdlib
     {
         // STUDENT WORK
+        if (node_ptr != NULL) {
+            postorder(f, node_ptr->left());
+            postorder(f, node_ptr->right());
+            f(node_ptr->data);
+        }
     }
     
     template <class Process, class BTNode>
@@ -210,6 +217,11 @@ namespace coen79_lab9
     // Library facilities used: cstdlib
     {
         // STUDENT WORK
+        if (node_ptr != NULL) {
+            f(node_ptr->data);
+            preorder(f, node_ptr->left());
+            preorder(f, node_ptr->right());
+        }
     }
     
     template <class Item, class SizeType>
@@ -234,9 +246,13 @@ namespace coen79_lab9
         if (root_ptr != NULL)
         {
             child = root_ptr->left( );
-            tree_clear( child );
+            tree_clear(child);
             
             // STUDENT WORK
+            child = root_ptr->right();
+            tree_clear(child);
+            delete root_ptr;
+            root_ptr = NULL;
         }
     }
     
@@ -253,6 +269,10 @@ namespace coen79_lab9
         else
         {
             // STUDENT WORK
+            l_ptr = tree_copy(root_ptr->left()); // Calls tree_copy with the left child as new root
+            r_ptr = tree_copy(root_ptr->right()); // Calls tree_copy with the right child as new root
+            return new binary_tree_node<Item> (root_ptr->data(),l_ptr,r_ptr); /* Returns a new node that links left */ 
+                                                                              /* and right subtrees from this point */
         }
     }
     
@@ -265,6 +285,8 @@ namespace coen79_lab9
             return 0;
         else
             // STUDENT WORK
+            return 1 + tree_size(node_ptr->left()) + tree_size(node_ptr->right()); /* Returns the left subtree plus the */
+                                                                                   /* right subtree plus 1 for the root */
     }
 }
 

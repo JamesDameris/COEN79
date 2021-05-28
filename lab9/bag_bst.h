@@ -264,7 +264,6 @@ namespace coen79_lab9
     // Library facilities used: bintree.h
     {
         // STUDENT WORK
-        root_ptr->data() = source.root_ptr->data();
         root_ptr = tree_copy(source.root_ptr);
     }
     
@@ -357,13 +356,10 @@ namespace coen79_lab9
             else
             {
                 // STUDENT WORK
-                if (cursor->data() == target) {
+                if (cursor->data() == target) { 
                     ++answer;
-                    cursor = cursor->left();
                 }
-                else {
-                    cursor = cursor->right();
-                }
+                cursor = cursor->left();
             }
         }
         return answer;

@@ -181,6 +181,7 @@ namespace coen79_lab9
             binary_tree_node<Item>* tmp = root_ptr;
             root_ptr = root_ptr->right();
             delete tmp;
+            return true;
         }
         
         // If code reaches this point, then we must remove the target from
@@ -232,6 +233,7 @@ namespace coen79_lab9
             binary_tree_node<Item>* tmp = root_ptr;
             root_ptr = root_ptr->right();
             delete tmp;
+            return 1;
         }
         
         // If code reaches this point, then we must remove the target from
